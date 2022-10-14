@@ -5,8 +5,6 @@
  */
 
 import React from 'react'
-import Filling from './Filling'
-import Blocks from './Blocks'
 
 export default function Axis (props) {
     return (

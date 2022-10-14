@@ -15,17 +15,17 @@ export default function Blocks ({ color, min, max }) {
     const range = 5
     
     const minHandler = (e) => {
-        if(e.target.value<= min) setMinVal(min)
-        else if((e.target.value > parseInt(maxVal) - parseInt(range)) && (e.target.value > min))
-            e.target.value = parseInt(maxVal) - parseInt(range)
-        else setMinVal(val => e.target.value)
+        if(e.target.value< min) setMinVal(min)
+        else if((e.target.value > parseInt(maxVal) - parseInt(range)))
+            setMinVal( parseInt(maxVal) - parseInt(range))
+        else setMinVal(e.target.value)
     }
     
     const maxHandler = (e) => {
-        if(e.target.value >= max) setMaxVal(max)
-        else if((e.target.value < parseInt(minVal) + parseInt(range)) && (e.target.value < max))
-            e.target.value = parseInt(minVal) + parseInt(range)
-        else setMaxVal(val => e.target.value)
+        if(e.target.value > max) setMaxVal(max)
+        else if((e.target.value < parseInt(minVal) + parseInt(range)))
+            setMaxVal(parseInt(minVal) + parseInt(range))
+        else setMaxVal(e.target.value)
     }
     
     return (
