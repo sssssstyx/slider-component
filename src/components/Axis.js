@@ -8,7 +8,7 @@ import React from 'react'
 
 export default function Axis (props) {
     return (
-        <div className="relative bg-stone-300 w-full h-2 rounded-xl">
+        <div className="relative bg-stone-300 w-full h-3 rounded-xl">
             {props.children}
         </div>
     )

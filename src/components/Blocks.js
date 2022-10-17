@@ -7,29 +7,34 @@
 import React, { useState } from 'react'
 import tw from 'tailwind-styled-components'
 import styled from 'styled-components'
-import Filling from './Filling'
+import Filler from './Filler'
+import Levitation from './Levitation'
 
-export default function Blocks ({ color, min, max }) {
-    const [minVal, setMinVal] = useState(min)
-    const [maxVal, setMaxVal] = useState(max)
-    const range = 5
+export default function Blocks ({ id, color, min: minRanged, max: maxRanged, description }) {
+    /* min range and max range to limit a ranged slider */
+    const [minVal, setMinVal] = useState(minRanged)
+    const [maxVal, setMaxVal] = useState(maxRanged)
     
+    /* distance between two slider buttons */
+    const range = 3
+    
+    /* set some limitation for button, just slide within the range */
     const minHandler = (e) => {
-        if(e.target.value< min) setMinVal(min)
-        else if((e.target.value > parseInt(maxVal) - parseInt(range)))
-            setMinVal( parseInt(maxVal) - parseInt(range))
+        if (e.target.value < minRanged) setMinVal(minRanged)
+        else if ((e.target.value > parseInt(maxVal) - parseInt(range)))
+            setMinVal(parseInt(maxVal) - parseInt(range))
         else setMinVal(e.target.value)
     }
     
     const maxHandler = (e) => {
-        if(e.target.value > max) setMaxVal(max)
-        else if((e.target.value < parseInt(minVal) + parseInt(range)))
+        if (e.target.value > maxRanged) setMaxVal(maxRanged)
+        else if ((e.target.value < parseInt(minVal) + parseInt(range)))
             setMaxVal(parseInt(minVal) + parseInt(range))
         else setMaxVal(e.target.value)
     }
     
     return (
-        <div >
+        <div className="group">
             {/* smaller input button */}
             <StyledInput type="range"
                          color={color}
@@ -37,7 +42,16 @@ export default function Blocks ({ color, min, max }) {
                          value={minVal}
                          onChange={e => minHandler(e)}
             />
-            <Filling color={color} min={minVal} max={maxVal}/>
+            <div className="relative mx-auto h-full w-[99%]">
+                {/* filler between the button */}
+                <Filler color={color} min={minVal} max={maxVal} />
+                {/* display current state above when hover */}
+                <Levitation mid={(parseInt(maxVal) + parseInt(minVal)) / 2}
+                            color={color}
+                            description={description}
+                />
+            </div>
+            
             {/* larger input button */}
             <StyledInput type="range"
                          color={color}
@@ -48,20 +62,22 @@ export default function Blocks ({ color, min, max }) {
         </div>
     )
 }
-
+/* styles for slider thumb */
 const StyledSliderThumb = styled.input`
-    ::-webkit-slider-thumb{
+    ::-webkit-slider-thumb {
         background: ${props => props.color};
-        width: 20px;
-        height: 20px;
+        width: 19px;
+        height: 19px;
+        border: 1px solid #e5e7eb;
         border-radius: 50%;
         pointer-events: auto;
         -webkit-appearance: none;
     }
-    ::-moz-range-thumb{
+
+    ::-moz-range-thumb {
         background: ${props => props.color};
-        width: 20px;
-        height: 20px;
+        width: 19px;
+        height: 19px;
         border-radius: 50%;
         pointer-events: auto;
         -moz-appearance: none;
@@ -70,7 +86,7 @@ const StyledSliderThumb = styled.input`
 
 const StyledInput = tw(StyledSliderThumb)`
     absolute
-    h-2
+    h-3
     w-full
     pointer-events-none
     bg-transparent
